@@ -14,17 +14,14 @@ class StoriesController < ApplicationController
   end
 
   def update
-    Rails.logger.info("Updating story with ID: #{params[:id]} and content: #{params[:content]}")
     if @story.update(content: params[:content])
       render json: @story, status: :ok
     else
-      Rails.logger.error("Failed to update story: #{@story.errors.full_messages}")
       render json: { error: @story.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def versions
-    Rails.logger.info("Fetching versions for story ID: #{params[:id]}")
     story = Story.find(params[:id])
     render json: story.versions
   rescue ActiveRecord::RecordNotFound
@@ -46,11 +43,9 @@ class StoriesController < ApplicationController
   private
 
   def set_story
-    Rails.logger.info("Looking for story with ID: #{params[:id]}")
     @story = Story.find_by(id: params[:id])
 
     if @story.nil?
-      Rails.logger.error("Story not found with ID: #{params[:id]}")
       render json: { error: "Story not found" }, status: :not_found
     end
   end

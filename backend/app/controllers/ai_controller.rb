@@ -1,9 +1,7 @@
 class AiController < ApplicationController
   def suggest
-    # Initialize the OpenAI client (already configured via the initializer)
     client = OpenAI::Client.new
 
-    # Input text from the user
     input_text = params[:text]
 
     begin
